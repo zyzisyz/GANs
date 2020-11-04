@@ -3,6 +3,7 @@
 
 import os
 from argparse import ArgumentParser, Namespace
+import time
 
 import numpy as np
 import torch
@@ -84,7 +85,6 @@ class GAN(LightningModule):
         super().__init__()
 
         self.hparams = hparams
-        input(hparams)
 
         # networks
         mnist_shape = (1, 28, 28)
@@ -94,7 +94,6 @@ class GAN(LightningModule):
         self.validation_z = torch.randn(64, self.hparams.latent_dim)
 
         self.example_input_array = torch.zeros(2, self.hparams.latent_dim)
-        self.optimizer_idx = 0
 
     def forward(self, z):
         return self.generator(z)
@@ -165,6 +164,6 @@ class GAN(LightningModule):
         sample_imgs = self(z)
         grid = torchvision.utils.make_grid(sample_imgs)
 		# TODO
-        vutils.save_image(grid, "{}/{}.png".format(self.hparams.figs, self.optimizer_idx), normalize=True)
+        vutils.save_image(grid, "{}/{}.png".format(self.hparams.figs, int(time.time())), normalize=True)
         self.logger.experiment.add_image('generated_images', grid, self.current_epoch)
 
