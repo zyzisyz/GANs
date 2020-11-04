@@ -1,16 +1,11 @@
 #!/bin/bash
 
 rm -rf figs
-rm -rf ckpt
 mkdir figs
-mkdir ckpt
 
 python main.py \
-    --dataset mnist \
-    --niter 10 \
-    --dataroot ./ \
-    --workers 8 \
-    --batchSize 32 \
-    --images figs \
-    --ckpt ckpt \
-    --cuda
+	--num_workers 32 \
+	--log_every_n_steps 1 \
+	--gpus 1 \
+	--figs figs
+
